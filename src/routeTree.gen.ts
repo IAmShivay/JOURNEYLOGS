@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as DestinationSlugRouteImport } from './routes/destination.$slug'
 import { Route as AdminEditIdRouteImport } from './routes/admin.edit.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -44,6 +50,7 @@ const AdminEditIdRoute = AdminEditIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/destination/$slug': typeof DestinationSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/edit/$id': typeof AdminEditIdRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/destination/$slug': typeof DestinationSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/edit/$id': typeof AdminEditIdRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/destination/$slug': typeof DestinationSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/edit/$id': typeof AdminEditIdRoute
@@ -68,15 +77,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/sitemap.xml'
     | '/destination/$slug'
     | '/admin/'
     | '/admin/edit/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/destination/$slug' | '/admin' | '/admin/edit/$id'
+  to:
+    | '/'
+    | '/login'
+    | '/sitemap.xml'
+    | '/destination/$slug'
+    | '/admin'
+    | '/admin/edit/$id'
   id:
     | '__root__'
     | '/'
     | '/login'
+    | '/sitemap.xml'
     | '/destination/$slug'
     | '/admin/'
     | '/admin/edit/$id'
@@ -85,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DestinationSlugRoute: typeof DestinationSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminEditIdRoute: typeof AdminEditIdRoute
@@ -92,6 +110,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -133,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   DestinationSlugRoute: DestinationSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminEditIdRoute: AdminEditIdRoute,
