@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      destinations: {
+        Row: {
+          author_id: string
+          country: string | null
+          cover_image_url: string | null
+          created_at: string
+          gallery: Json
+          id: string
+          lat: number | null
+          lng: number | null
+          location: string
+          published: boolean
+          slug: string
+          story: string
+          summary: string | null
+          title: string
+          updated_at: string
+          visited_on: string | null
+        }
+        Insert: {
+          author_id: string
+          country?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          gallery?: Json
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          location: string
+          published?: boolean
+          slug: string
+          story?: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+          visited_on?: string | null
+        }
+        Update: {
+          author_id?: string
+          country?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          gallery?: Json
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          location?: string
+          published?: boolean
+          slug?: string
+          story?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+          visited_on?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
