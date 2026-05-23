@@ -114,7 +114,21 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthBridge />
       <Outlet />
     </QueryClientProvider>
   );
+}
+
+function AuthBridge() {
+  const router = useRouter();
+  const qc = useQueryClient();
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      router.invalidate();
+      qc.invalidateQueries();
+    });
+    return () => subscription.unsubscribe();
+  }, [router, qc]);
+  return null;
 }
