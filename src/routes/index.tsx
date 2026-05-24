@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { listPublishedDestinations, type DestinationDTO } from "@/lib/destinations.functions";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import heroImage from "@/assets/hero-ocean.jpg";
+import { Newsletter } from "@/components/newsletter";
 
 const destinationsQuery = queryOptions({
   queryKey: ["destinations", "published"],
@@ -134,6 +135,29 @@ function HomePage() {
           </>
         )}
       </main>
+
+      {/* Newsletter band */}
+      <section className="relative overflow-hidden bg-deep text-primary-foreground">
+        <div className="absolute inset-0 bg-gradient-deep opacity-90" />
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: "radial-gradient(circle at 20% 30%, var(--sand) 0%, transparent 40%), radial-gradient(circle at 80% 70%, var(--surf) 0%, transparent 50%)",
+        }} />
+        <div className="relative mx-auto max-w-5xl px-6 py-24 md:py-32 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-sand mb-6">The mailing list</p>
+          <h2 className="font-display text-5xl md:text-7xl text-balance leading-[0.98] max-w-3xl mx-auto">
+            New <span className="display-italic">postcards</span>, sent only when there's something worth telling.
+          </h2>
+          <p className="mt-8 text-lg text-primary-foreground/80 max-w-xl mx-auto">
+            Subscribe to get new destinations, photo essays, and the occasional invite — straight to your inbox.
+          </p>
+          <div className="mt-10 flex justify-center">
+            <Newsletter variant="dark" />
+          </div>
+          <p className="mt-6 text-xs text-primary-foreground/50">
+            No spam, ever. Unsubscribe in one click.
+          </p>
+        </div>
+      </section>
 
       <SiteFooter />
     </div>
