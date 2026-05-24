@@ -8,7 +8,9 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "About the journal, the wanderer, and the way these postcards get written." },
       { property: "og:title", content: "About — Far & Wide" },
       { property: "og:description", content: "About the journal, the wanderer, and the way these postcards get written." },
+      { property: "og:url", content: "https://journeylogs.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://journeylogs.lovable.app/about" }],
   }),
   component: AboutPage,
 });

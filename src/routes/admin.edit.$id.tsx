@@ -8,7 +8,15 @@ import { DarkSiteHeader } from "@/components/site-chrome";
 import { useSession } from "@/hooks/use-session";
 
 export const Route = createFileRoute("/admin/edit/$id")({
-  head: () => ({ meta: [{ title: "Edit destination — Far & Wide" }] }),
+  head: () => ({
+    meta: [
+      { title: "Edit destination — Far & Wide" },
+      { name: "description", content: "Private editor for creating and updating destination entries in the Far & Wide travel journal." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Edit destination — Far & Wide" },
+      { property: "og:description", content: "Private editor for creating and updating destination entries." },
+    ],
+  }),
   component: EditPage,
 });
 
