@@ -12,9 +12,23 @@ export const Route = createFileRoute("/destinations")({
   head: () => ({
     meta: [
       { title: "All Destinations — Far & Wide" },
-      { name: "description", content: "Every place written about, from coastlines to mountain towns." },
+      { name: "description", content: "Every place written about, from coastlines to mountain towns — an index of all travel entries in the Far & Wide journal." },
       { property: "og:title", content: "All Destinations — Far & Wide" },
-      { property: "og:description", content: "Every place written about, from coastlines to mountain towns." },
+      { property: "og:description", content: "Every place written about, from coastlines to mountain towns — an index of all travel entries in the Far & Wide journal." },
+      { property: "og:url", content: "https://journeylogs.lovable.app/destinations" },
+    ],
+    links: [{ rel: "canonical", href: "https://journeylogs.lovable.app/destinations" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "All Destinations — Far & Wide",
+          url: "https://journeylogs.lovable.app/destinations",
+          description: "Every place written about, from coastlines to mountain towns.",
+        }),
+      },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(q),
@@ -47,9 +61,9 @@ function Row({ d, i }: { d: DestinationDTO; i: number }) {
         <p className="text-[11px] uppercase tracking-[0.25em] text-accent mb-1.5">
           {d.country || d.location}
         </p>
-        <h3 className="font-display text-2xl md:text-3xl group-hover:text-accent transition-colors leading-tight">
+        <h2 className="font-display text-2xl md:text-3xl group-hover:text-accent transition-colors leading-tight">
           {d.title}
-        </h3>
+        </h2>
         {d.summary && <p className="text-sm text-muted-foreground line-clamp-1 mt-1.5">{d.summary}</p>}
       </div>
       <div className="hidden md:block col-span-3 text-right text-sm text-muted-foreground">

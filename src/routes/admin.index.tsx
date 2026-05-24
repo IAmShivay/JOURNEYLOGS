@@ -7,7 +7,16 @@ import { DarkSiteHeader } from "@/components/site-chrome";
 import { useSession } from "@/hooks/use-session";
 
 export const Route = createFileRoute("/admin/")({
-  head: () => ({ meta: [{ title: "Admin — Far & Wide" }] }),
+  head: () => ({
+    meta: [
+      { title: "Admin — Far & Wide" },
+      { name: "description", content: "Private admin area for managing destinations in the Far & Wide travel journal." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Admin — Far & Wide" },
+      { property: "og:description", content: "Private admin area for managing destinations." },
+      { property: "og:url", content: "https://journeylogs.lovable.app/admin" },
+    ],
+  }),
   component: AdminIndex,
 });
 

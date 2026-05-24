@@ -74,22 +74,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Notes from the Edge of the Map" },
-      { name: "description", content: "A personal collection of travel stories and destinations." },
       { name: "author", content: "Far & Wide" },
-      { property: "og:title", content: "Notes from the Edge of the Map" },
-      { property: "og:description", content: "A personal collection of travel stories and destinations." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Far & Wide" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Notes from the Edge of the Map" },
-      { name: "twitter:description", content: "A personal collection of travel stories and destinations." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/fZPT0yVog1VllUqBMvBD7rMx4mf2/social-images/social-1779600278737-file_0000000032107208933f49f0276e0554.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/fZPT0yVog1VllUqBMvBD7rMx4mf2/social-images/social-1779600278737-file_0000000032107208933f49f0276e0554.webp" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Far & Wide",
+          url: "https://journeylogs.lovable.app",
+          description: "A personal collection of travel stories and destinations.",
+          publisher: {
+            "@type": "Organization",
+            name: "Far & Wide",
+            url: "https://journeylogs.lovable.app",
+          },
+        }),
       },
     ],
   }),

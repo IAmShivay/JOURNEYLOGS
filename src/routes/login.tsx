@@ -4,7 +4,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { DarkSiteHeader } from "@/components/site-chrome";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Sign in — Far & Wide" }] }),
+  head: () => ({
+    meta: [
+      { title: "Sign in — Far & Wide" },
+      { name: "description", content: "Author sign-in for the Far & Wide travel journal. Access is for the journal's writers only." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Sign in — Far & Wide" },
+      { property: "og:description", content: "Author sign-in for the Far & Wide travel journal." },
+      { property: "og:url", content: "https://journeylogs.lovable.app/login" },
+    ],
+  }),
   component: LoginPage,
 });
 
@@ -61,9 +70,11 @@ function LoginPage() {
 
           <form onSubmit={submit} className="space-y-5">
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Email</label>
+              <label htmlFor="login-email" className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Email</label>
               <input
+                id="login-email"
                 type="email"
+                autoComplete="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -71,9 +82,11 @@ function LoginPage() {
               />
             </div>
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Password</label>
+              <label htmlFor="login-password" className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Password</label>
               <input
+                id="login-password"
                 type="password"
+                autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 required
                 minLength={6}
                 value={password}

@@ -15,19 +15,41 @@ export const Route = createFileRoute("/destination/$slug")({
     if (!d) throw notFound();
     return d;
   },
-  head: ({ loaderData }) => ({
+  head: ({ params, loaderData }) => ({
     meta: loaderData
       ? [
           { title: `${loaderData.title} — Far & Wide` },
           { name: "description", content: loaderData.summary || `Travel story from ${loaderData.location}` },
           { property: "og:title", content: `${loaderData.title} — Far & Wide` },
           { property: "og:description", content: loaderData.summary || `Travel story from ${loaderData.location}` },
+          { property: "og:type", content: "article" },
+          { property: "og:url", content: `https://journeylogs.lovable.app/destination/${params.slug}` },
           ...(loaderData.cover_image_url
             ? [
                 { property: "og:image", content: loaderData.cover_image_url },
                 { name: "twitter:image", content: loaderData.cover_image_url },
               ]
             : []),
+        ]
+      : [],
+    links: [{ rel: "canonical", href: `https://journeylogs.lovable.app/destination/${params.slug}` }],
+    scripts: loaderData
+      ? [
+          {
+            type: "application/ld+json",
+            children: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: loaderData.title,
+              description: loaderData.summary || undefined,
+              image: loaderData.cover_image_url || undefined,
+              datePublished: loaderData.visited_on || undefined,
+              dateModified: (loaderData as any).updated_at || undefined,
+              mainEntityOfPage: `https://journeylogs.lovable.app/destination/${params.slug}`,
+              author: { "@type": "Organization", name: "Far & Wide" },
+              publisher: { "@type": "Organization", name: "Far & Wide" },
+            }),
+          },
         ]
       : [],
   }),

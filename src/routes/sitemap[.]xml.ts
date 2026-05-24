@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const BASE_URL = "";
+const BASE_URL = "https://journeylogs.lovable.app";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -15,6 +15,9 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const entries = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
+          { path: "/destinations", changefreq: "weekly", priority: "0.9" },
+          { path: "/about", changefreq: "monthly", priority: "0.6" },
+          { path: "/contact", changefreq: "yearly", priority: "0.5" },
           ...(data ?? []).map((d: any) => ({
             path: `/destination/${d.slug}`,
             lastmod: d.updated_at,

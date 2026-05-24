@@ -9,7 +9,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch — recommend a place, share a route, or just say hello." },
       { property: "og:title", content: "Contact — Far & Wide" },
       { property: "og:description", content: "Get in touch — recommend a place, share a route, or just say hello." },
+      { property: "og:url", content: "https://journeylogs.lovable.app/contact" },
     ],
+    links: [{ rel: "canonical", href: "https://journeylogs.lovable.app/contact" }],
   }),
   component: ContactPage,
 });

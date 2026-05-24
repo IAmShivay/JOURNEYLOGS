@@ -1,0 +1,16 @@
+# Far & Wide
+
+> A personal travel journal — slow notes, photographs, and stories from places worth remembering.
+
+Far & Wide is a personal collection of travel stories and destinations. Each entry is a long-form postcard about somewhere the author has walked through, written in an unhurried, editorial voice.
+
+## Pages
+
+- [Home](/): Featured destination, latest entries, and newsletter signup.
+- [All destinations](/destinations): Index of every published travel entry, in order.
+- [About](/about): About the journal and the writer behind it.
+- [Contact](/contact): Email, social links, and newsletter signup.
+
+## Content
+
+- [Destination entries](/destination/): Individual travel stories, one per destination. Each includes a title, location, visit date, summary, long-form story, and photo gallery.
