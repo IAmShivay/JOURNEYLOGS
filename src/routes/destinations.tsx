@@ -78,16 +78,16 @@ function DestinationsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <DarkSiteHeader />
-      <main className="flex-1 mx-auto max-w-6xl px-6 py-20 md:py-28 w-full">
+      <main className="flex-1 mx-auto max-w-6xl px-5 sm:px-6 py-16 sm:py-20 md:py-28 w-full">
         <p className="text-xs uppercase tracking-[0.3em] text-accent mb-4">The Index</p>
-        <h1 className="font-display text-5xl md:text-7xl text-balance leading-[0.98]">
+        <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-balance leading-[0.98]">
           Every <span className="display-italic">destination</span>, in order.
         </h1>
-        <p className="display-italic text-xl text-muted-foreground mt-6 max-w-2xl">
+        <p className="display-italic text-lg sm:text-xl text-muted-foreground mt-6 max-w-2xl">
           {data.length} {data.length === 1 ? "entry" : "entries"} and counting.
         </p>
 
-        <div className="mt-16">
+        <div className="mt-12 sm:mt-16">
           {data.length === 0 ? (
             <p className="text-muted-foreground py-12">No destinations yet.</p>
           ) : (
