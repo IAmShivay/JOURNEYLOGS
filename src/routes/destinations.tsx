@@ -45,28 +45,28 @@ function Row({ d, i }: { d: DestinationDTO; i: number }) {
     <Link
       to="/destination/$slug"
       params={{ slug: d.slug }}
-      className="group grid grid-cols-12 gap-6 items-center py-8 border-b border-border hover:bg-muted/40 transition px-2 -mx-2 rounded-sm"
+      className="group flex items-center gap-4 sm:gap-6 py-6 sm:py-8 border-b border-border hover:bg-muted/40 transition px-2 -mx-2 rounded-sm"
     >
-      <div className="col-span-1 font-display text-2xl text-muted-foreground">
+      <div className="hidden sm:block font-display text-2xl text-muted-foreground w-10 shrink-0">
         {String(i + 1).padStart(2, "0")}
       </div>
-      <div className="col-span-3 md:col-span-2 aspect-[4/3] bg-muted overflow-hidden rounded-sm">
+      <div className="w-24 sm:w-32 aspect-[4/3] bg-muted overflow-hidden rounded-sm shrink-0">
         {d.cover_image_url ? (
           <img src={d.cover_image_url} alt={d.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         ) : (
           <div className="w-full h-full bg-gradient-deep" />
         )}
       </div>
-      <div className="col-span-8 md:col-span-6">
-        <p className="text-[11px] uppercase tracking-[0.25em] text-accent mb-1.5">
+      <div className="flex-1 min-w-0">
+        <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-accent mb-1.5">
           {d.country || d.location}
         </p>
-        <h2 className="font-display text-2xl md:text-3xl group-hover:text-accent transition-colors leading-tight">
+        <h2 className="font-display text-xl sm:text-2xl md:text-3xl group-hover:text-accent transition-colors leading-tight">
           {d.title}
         </h2>
-        {d.summary && <p className="text-sm text-muted-foreground line-clamp-1 mt-1.5">{d.summary}</p>}
+        {d.summary && <p className="text-sm text-muted-foreground line-clamp-1 mt-1.5 hidden sm:block">{d.summary}</p>}
       </div>
-      <div className="hidden md:block col-span-3 text-right text-sm text-muted-foreground">
+      <div className="hidden md:block text-right text-sm text-muted-foreground shrink-0 w-32">
         {formatDate(d.visited_on)}
       </div>
     </Link>
