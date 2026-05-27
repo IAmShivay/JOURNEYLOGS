@@ -53,16 +53,16 @@ function AdminIndex() {
   return (
     <div className="min-h-screen flex flex-col">
       <DarkSiteHeader />
-      <main className="mx-auto max-w-6xl px-6 py-16 w-full">
-        <div className="flex items-end justify-between border-b border-border pb-6 mb-10">
+      <main className="mx-auto max-w-6xl px-5 sm:px-6 py-12 sm:py-16 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-6 mb-10">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-accent mb-2">Admin</p>
-            <h1 className="font-display text-5xl">Your <span className="display-italic">destinations</span></h1>
+            <h1 className="font-display text-4xl sm:text-5xl">Your <span className="display-italic">destinations</span></h1>
           </div>
           <Link
             to="/admin/edit/$id"
             params={{ id: "new" }}
-            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-sm hover:bg-tide transition text-sm"
+            className="self-start sm:self-auto px-5 py-2.5 bg-primary text-primary-foreground rounded-sm hover:bg-tide transition text-sm"
           >
             + New destination
           </Link>
@@ -81,22 +81,24 @@ function AdminIndex() {
         ) : (
           <ul className="divide-y divide-border">
             {data.map((d) => (
-              <li key={d.id} className="py-5 flex items-center gap-5">
-                <div className="w-20 h-20 rounded-sm bg-muted overflow-hidden shrink-0">
-                  {d.cover_image_url && (
-                    <img src={d.cover_image_url} alt="" className="w-full h-full object-cover" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-display text-2xl truncate">{d.title}</h3>
-                    {!d.published && <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">Draft</span>}
+              <li key={d.id} className="py-5 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+                <div className="flex gap-4 sm:gap-5 flex-1 min-w-0">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm bg-muted overflow-hidden shrink-0">
+                    {d.cover_image_url && (
+                      <img src={d.cover_image_url} alt="" className="w-full h-full object-cover" />
+                    )}
                   </div>
-                  <p className="text-sm text-muted-foreground truncate">
-                    {d.country ? `${d.location}, ${d.country}` : d.location} · /{d.slug}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-1 flex-wrap">
+                      <h3 className="font-display text-xl sm:text-2xl truncate">{d.title}</h3>
+                      {!d.published && <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">Draft</span>}
+                    </div>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {d.country ? `${d.location}, ${d.country}` : d.location} · /{d.slug}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 self-end sm:self-auto">
                   <Link
                     to="/destination/$slug" params={{ slug: d.slug }}
                     className="text-sm text-muted-foreground hover:text-foreground px-3 py-2"
