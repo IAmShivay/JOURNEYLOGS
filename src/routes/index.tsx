@@ -144,15 +144,15 @@ function HomePage() {
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: "radial-gradient(circle at 20% 30%, var(--sand) 0%, transparent 40%), radial-gradient(circle at 80% 70%, var(--surf) 0%, transparent 50%)",
         }} />
-        <div className="relative mx-auto max-w-5xl px-6 py-24 md:py-32 text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-sand mb-6">The mailing list</p>
-          <h2 className="font-display text-5xl md:text-7xl text-balance leading-[0.98] max-w-3xl mx-auto">
+        <div className="relative mx-auto max-w-5xl px-5 sm:px-6 py-20 sm:py-24 md:py-32 text-center">
+          <p className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-sand mb-5 sm:mb-6">The mailing list</p>
+          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-balance leading-[0.98] max-w-3xl mx-auto">
             New <span className="display-italic">postcards</span>, sent only when there's something worth telling.
           </h2>
-          <p className="mt-8 text-lg text-primary-foreground/80 max-w-xl mx-auto">
+          <p className="mt-6 sm:mt-8 text-base sm:text-lg text-primary-foreground/80 max-w-xl mx-auto">
             Subscribe to get new destinations, photo essays, and the occasional invite — straight to your inbox.
           </p>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-8 sm:mt-10 flex justify-center">
             <Newsletter variant="dark" />
           </div>
           <p className="mt-6 text-xs text-primary-foreground/50">
