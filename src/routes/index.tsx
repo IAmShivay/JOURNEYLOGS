@@ -47,12 +47,12 @@ function FeaturedCard({ d }: { d: DestinationDTO }) {
           <div className="w-full h-full bg-gradient-deep" />
         )}
         <div className="absolute inset-0 bg-gradient-overlay" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-primary-foreground">
-          <p className="text-xs uppercase tracking-[0.2em] text-sand mb-3">
+        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 text-primary-foreground">
+          <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-sand mb-2 sm:mb-3">
             Featured · {d.country || d.location}
           </p>
-          <h2 className="font-display text-4xl md:text-5xl text-balance mb-2">{d.title}</h2>
-          {d.summary && <p className="text-primary-foreground/85 max-w-xl text-balance">{d.summary}</p>}
+          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl text-balance mb-2">{d.title}</h2>
+          {d.summary && <p className="text-sm sm:text-base text-primary-foreground/85 max-w-xl text-balance line-clamp-2 sm:line-clamp-none">{d.summary}</p>}
         </div>
       </div>
     </Link>
