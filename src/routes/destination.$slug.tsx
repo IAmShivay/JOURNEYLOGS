@@ -100,12 +100,12 @@ function DestinationPage() {
           </p>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl mt-4 text-balance leading-[0.98] break-words">{d.title}</h1>
           {d.summary && (
-            <p className="display-italic text-2xl md:text-3xl text-muted-foreground mt-6 text-balance">{d.summary}</p>
+            <p className="display-italic text-xl sm:text-2xl md:text-3xl text-muted-foreground mt-6 text-balance">{d.summary}</p>
           )}
 
-          <div className="mt-12 prose prose-lg max-w-none">
+          <div className="mt-10 sm:mt-12 prose prose-lg max-w-none">
             {d.story.split(/\n\n+/).map((para, i) => (
-              <p key={i} className="text-lg leading-relaxed text-foreground/90 mb-6 whitespace-pre-wrap">
+              <p key={i} className="text-base sm:text-lg leading-relaxed text-foreground/90 mb-5 sm:mb-6 whitespace-pre-wrap break-words">
                 {para}
               </p>
             ))}
