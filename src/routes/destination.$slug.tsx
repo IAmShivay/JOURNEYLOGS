@@ -84,28 +84,28 @@ function DestinationPage() {
       <article className="flex-1">
         {/* Hero cover */}
         {d.cover_image_url && (
-          <div className="relative aspect-[21/9] w-full overflow-hidden bg-muted">
+          <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-muted">
             <img src={d.cover_image_url} alt={d.title} className="w-full h-full object-cover" />
           </div>
         )}
 
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-5 sm:px-6 py-12 sm:py-16 md:py-24">
           <Link to="/" className="text-xs uppercase tracking-[0.25em] text-accent hover:underline">
             ← Back to journal
           </Link>
 
-          <p className="mt-8 text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          <p className="mt-6 sm:mt-8 text-xs uppercase tracking-[0.25em] text-muted-foreground">
             {d.country ? `${d.location}, ${d.country}` : d.location}
             {d.visited_on && <> · Visited {formatDate(d.visited_on)}</>}
           </p>
-          <h1 className="font-display text-5xl md:text-7xl mt-4 text-balance leading-[0.98]">{d.title}</h1>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl mt-4 text-balance leading-[0.98] break-words">{d.title}</h1>
           {d.summary && (
-            <p className="display-italic text-2xl md:text-3xl text-muted-foreground mt-6 text-balance">{d.summary}</p>
+            <p className="display-italic text-xl sm:text-2xl md:text-3xl text-muted-foreground mt-6 text-balance">{d.summary}</p>
           )}
 
-          <div className="mt-12 prose prose-lg max-w-none">
+          <div className="mt-10 sm:mt-12 prose prose-lg max-w-none">
             {d.story.split(/\n\n+/).map((para, i) => (
-              <p key={i} className="text-lg leading-relaxed text-foreground/90 mb-6 whitespace-pre-wrap">
+              <p key={i} className="text-base sm:text-lg leading-relaxed text-foreground/90 mb-5 sm:mb-6 whitespace-pre-wrap break-words">
                 {para}
               </p>
             ))}

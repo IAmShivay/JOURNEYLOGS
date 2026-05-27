@@ -170,11 +170,11 @@ function EditPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <DarkSiteHeader />
-      <main className="mx-auto max-w-3xl px-6 py-12 w-full">
+      <main className="mx-auto max-w-3xl px-5 sm:px-6 py-10 sm:py-12 w-full">
         <Link to="/admin" className="text-xs uppercase tracking-[0.25em] text-accent hover:underline">
           ← Back to admin
         </Link>
-        <h1 className="font-display text-5xl mt-6 mb-10">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl mt-6 mb-8 sm:mb-10 break-words">
           {isNew ? "New destination" : <>Edit <span className="display-italic">{form.title || "destination"}</span></>}
         </h1>
 

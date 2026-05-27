@@ -19,12 +19,12 @@ function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <DarkSiteHeader />
-      <main className="flex-1 mx-auto max-w-3xl px-6 py-20 md:py-28">
+      <main className="flex-1 mx-auto max-w-3xl px-5 sm:px-6 py-16 sm:py-20 md:py-28">
         <p className="text-xs uppercase tracking-[0.3em] text-accent mb-4">About</p>
-        <h1 className="font-display text-5xl md:text-7xl text-balance leading-[0.98]">
+        <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-balance leading-[0.98]">
           A slow journal of <span className="display-italic">somewhere</span> else.
         </h1>
-        <p className="display-italic text-2xl md:text-3xl text-muted-foreground mt-8 text-balance">
+        <p className="display-italic text-xl sm:text-2xl md:text-3xl text-muted-foreground mt-6 sm:mt-8 text-balance">
           Notes, photographs, and the small things I keep coming back to.
         </p>
 
