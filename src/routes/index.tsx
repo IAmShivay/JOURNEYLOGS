@@ -90,7 +90,7 @@ function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero */}
-      <section className="relative min-h-[88vh] flex items-end">
+      <section className="relative min-h-[88vh] sm:min-h-[88vh] flex items-end">
         <img
           src={heroImage}
           alt="Ocean coastline at golden hour"
@@ -100,37 +100,37 @@ function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-deep/40 via-deep/30 to-deep/90" />
         <SiteHeader />
-        <div className="relative mx-auto max-w-7xl px-6 pb-20 md:pb-28 text-primary-foreground">
-          <p className="text-xs uppercase tracking-[0.3em] text-sand mb-6">Volume 01 · Ongoing</p>
-          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl text-balance max-w-5xl leading-[0.95]">
+        <div className="relative mx-auto max-w-7xl w-full px-5 sm:px-6 pt-28 pb-16 sm:pb-20 md:pb-28 text-primary-foreground">
+          <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sand mb-4 sm:mb-6">Volume 01 · Ongoing</p>
+          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-balance max-w-5xl leading-[0.98]">
             Postcards from <span className="display-italic">somewhere</span> far enough to feel changed.
           </h1>
-          <p className="mt-8 max-w-xl text-lg text-primary-foreground/85">
+          <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-primary-foreground/85">
             A slow journal of places I've walked through, the salt I've tasted, and the rooms I keep coming back to in my head.
           </p>
         </div>
       </section>
 
       {/* Magazine grid */}
-      <main className="mx-auto max-w-7xl px-6 py-20 md:py-28 w-full">
+      <main className="mx-auto max-w-7xl px-5 sm:px-6 py-16 sm:py-20 md:py-28 w-full">
         {destinations.length === 0 ? (
           <EmptyState />
         ) : (
           <>
-            <div className="flex items-end justify-between border-b border-border pb-4 mb-10">
-              <div>
+            <div className="flex items-end justify-between gap-4 border-b border-border pb-4 mb-10">
+              <div className="min-w-0">
                 <p className="text-xs uppercase tracking-[0.25em] text-accent mb-2">The Journal</p>
-                <h2 className="font-display text-4xl md:text-5xl">Stories &amp; <span className="display-italic">destinations</span></h2>
+                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl">Stories &amp; <span className="display-italic">destinations</span></h2>
               </div>
-              <p className="text-sm text-muted-foreground hidden md:block">
+              <p className="text-sm text-muted-foreground hidden md:block shrink-0">
                 {destinations.length} {destinations.length === 1 ? "entry" : "entries"}
               </p>
             </div>
 
-            {featured && <div className="mb-20"><FeaturedCard d={featured} /></div>}
+            {featured && <div className="mb-16 sm:mb-20"><FeaturedCard d={featured} /></div>}
 
             {rest.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 md:gap-x-10 gap-y-12 sm:gap-y-16">
                 {rest.map((d) => <StoryCard key={d.id} d={d} />)}
               </div>
             )}
