@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Workers
+name: Deploy to VPS
 
 on:
   release:
@@ -7,9 +7,14 @@ on:
     - cron: "0 14 * * 5"
   workflow_dispatch:
 
+env:
+  VPS_HOST: ${{ secrets.VPS_HOST }}
+  VPS_USER: ubuntu
+  APP_DIR: /home/ubuntu/journeylogs
+
 jobs:
-  deploy:
-    name: Build & Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -29,9 +34,72 @@ jobs:
       - run: bun install
 
       - name: Build
-        run: NITRO_PRESET=cloudflare-module bun run build
+        run: NITRO_PRESET=node-server bun run build
 
-      - name: Deploy to Cloudflare
-        uses: cloudflare/wrangler-action@v3
+      - name: Upload build
+        uses: actions/upload-artifact@v4
         with:
-          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
+          name: journeylogs-build
+          path: |
+            .output/
+            package.json
+            bun.lock
+
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: journeylogs-build
+          path: build/
+
+      - name: Fetch runtime secrets from Infisical
+        uses: Infisical/secrets-action@v1.0.7
+        with:
+          client-id: ${{ secrets.INFISICAL_CLIENT_ID }}
+          client-secret: ${{ secrets.INFISICAL_CLIENT_SECRET }}
+          project-slug: formiqstudio-project-jk-zk
+          env-slug: prod
+          secret-path: /journeylogs
+          export-type: file
+          file-output-path: .env.journeylogs
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy
+        run: |
+          rsync -avz --delete \
+            build/.output/ \
+            ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.output/
+
+          scp .env.journeylogs ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
+
+      - name: Restart
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
+            cd /home/ubuntu/journeylogs
+
+            if pm2 describe journeylogs > /dev/null 2>&1; then
+              pm2 restart journeylogs
+            else
+              PORT=3002 NODE_OPTIONS="--max-old-space-size=256" pm2 start .output/server/index.mjs \
+                --name journeylogs \
+                --max-memory-restart 200M
+            fi
+
+            pm2 save
+          EOF
+
+      - name: Verify
+        run: |
+          sleep 5
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} "pm2 status"
