@@ -6,7 +6,7 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const preset = process.env.NITRO_PRESET ?? "node-server";
+const preset = process.env.NITRO_PRESET ?? "cloudflare-module";
 
 const nitroConfig: Record<string, object> = {
   vercel: {

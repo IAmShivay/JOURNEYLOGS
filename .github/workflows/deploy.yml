@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy to Cloudflare Workers
 
 on:
   release:
@@ -7,13 +7,8 @@ on:
     - cron: "0 14 * * 5"
   workflow_dispatch:
 
-env:
-  VPS_HOST: ${{ secrets.VPS_HOST }}
-  VPS_USER: ubuntu
-  APP_DIR: /home/ubuntu/journeylogs
-
 jobs:
-  build-deploy:
+  deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
 
@@ -27,7 +22,7 @@ jobs:
           curl -1sLf 'https://dl.cloudsmith.io/public/infisical/infisical-cli/setup.deb.sh' | sudo -E bash
           sudo apt-get install -y infisical
 
-      - name: Export secrets to .env
+      - name: Export secrets
         run: |
           export INFISICAL_TOKEN=$(curl -s -X POST https://app.infisical.com/api/v1/auth/universal-auth/login \
             -H 'Content-Type: application/json' \
@@ -38,43 +33,17 @@ jobs:
             --env prod \
             --path /journeylogs \
             --format dotenv > .env.deploy
+          set -a && source .env.deploy && set +a
+          echo "CLOUDFLARE_API_TOKEN=$(grep CLOUDFLARE_API_TOKEN .env.deploy | cut -d= -f2-)" >> $GITHUB_ENV
+
+      - run: bun install
 
       - name: Build
         run: |
           set -a && source .env.deploy && set +a
-          bun install
-          NITRO_PRESET=node-server bun run build
+          bun run build
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
-
-      - name: Deploy
-        run: |
-          rsync -avz --delete \
-            dist/ \
-            ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/dist/
-
-          scp .env.deploy ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
-
-      - name: Restart
-        run: |
-          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
-            cd /home/ubuntu/journeylogs
-            pm2 delete journeylogs 2>/dev/null || true
-            pm2 start dist/server/index.mjs \
-              --name journeylogs \
-              --cwd /home/ubuntu/journeylogs \
-              --node-args="--max-old-space-size=256 --env-file=.env" \
-              --max-memory-restart 200M \
-              --env PORT=3002
-            pm2 save
-          EOF
-
-      - name: Verify
-        run: |
-          sleep 5
-          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} "pm2 status"
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
