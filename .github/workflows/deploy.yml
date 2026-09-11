@@ -22,21 +22,27 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
-      - name: Fetch secrets from Infisical
-        uses: Infisical/secrets-action@v1.0.7
-        with:
-          client-id: ${{ secrets.INFISICAL_CLIENT_ID }}
-          client-secret: ${{ secrets.INFISICAL_CLIENT_SECRET }}
-          project-slug: formiqstudio-project-jk-zk
-          env-slug: prod
-          secret-path: /journeylogs
-          export-type: file
-          file-output-path: .env.journeylogs
+      - name: Install Infisical CLI
+        run: |
+          curl -1sLf 'https://dl.cloudsmith.io/public/infisical/infisical-cli/setup.deb.sh' | sudo -E bash
+          sudo apt-get install -y infisical
 
-      - run: bun install
+      - name: Export secrets to .env
+        run: |
+          export INFISICAL_TOKEN=$(curl -s -X POST https://app.infisical.com/api/v1/auth/universal-auth/login \
+            -H 'Content-Type: application/json' \
+            -d "{\"clientId\":\"${{ secrets.INFISICAL_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.INFISICAL_CLIENT_SECRET }}\"}" \
+            | jq -r '.accessToken')
+          infisical export --token "$INFISICAL_TOKEN" \
+            --projectId 9a8d77c4-cf7e-4230-a9cd-6d60dc2bca4b \
+            --env prod \
+            --path /journeylogs \
+            --format dotenv > .env.deploy
 
       - name: Build
-        run: NITRO_PRESET=node-server bun run build
+        run: |
+          set -a && source .env.deploy && set +a
+          NITRO_PRESET=node-server bun install && bun run build
 
       - name: Setup SSH
         run: |
@@ -51,7 +57,7 @@ jobs:
             dist/ \
             ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/dist/
 
-          scp .env.journeylogs ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
+          scp .env.deploy ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
 
       - name: Restart
         run: |
