@@ -15,10 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
+      - uses: oven-sh/setup-bun@v2
 
       - name: Fetch secrets from Infisical
         uses: Infisical/secrets-action@v1.0.7
@@ -29,10 +26,10 @@ jobs:
           env-slug: prod
           secret-path: /journeylogs
 
-      - run: npm ci
+      - run: bun install
 
       - name: Build
-        run: NITRO_PRESET=cloudflare-module npm run build
+        run: NITRO_PRESET=cloudflare-module bun run build
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
