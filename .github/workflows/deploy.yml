@@ -59,19 +59,33 @@ jobs:
 
           scp .env.deploy ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
 
+      - name: Create ecosystem config
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'SSHEOF'
+            cat > /home/ubuntu/journeylogs/ecosystem.config.cjs << 'EOF'
+          module.exports = {
+            apps: [{
+              name: "journeylogs",
+              cwd: "/home/ubuntu/journeylogs",
+              script: "dist/server/index.mjs",
+              node_args: "--max-old-space-size=256",
+              max_memory_restart: "200M",
+              env_file: "/home/ubuntu/journeylogs/.env",
+              env: {
+                PORT: 3002,
+                NODE_ENV: "production"
+              }
+            }]
+          };
+          EOF
+          SSHEOF
+
       - name: Restart
         run: |
           ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
             cd /home/ubuntu/journeylogs
-
-            if pm2 describe journeylogs > /dev/null 2>&1; then
-              pm2 restart journeylogs
-            else
-              PORT=3002 NODE_OPTIONS="--max-old-space-size=256" pm2 start dist/server/index.mjs \
-                --name journeylogs \
-                --max-memory-restart 200M
-            fi
-
+            pm2 delete journeylogs 2>/dev/null || true
+            pm2 start ecosystem.config.cjs
             pm2 save
           EOF
 
