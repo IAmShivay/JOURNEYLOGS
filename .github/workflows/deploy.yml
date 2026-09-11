@@ -38,6 +38,14 @@ jobs:
       - name: Build
         run: NITRO_PRESET=node-server bun run build
 
+      - name: Find build output
+        run: |
+          echo "Checking build output locations:"
+          ls -la .output/ 2>/dev/null || echo "No .output/"
+          ls -la dist/ 2>/dev/null || echo "No dist/"
+          ls -la .vinxi/ 2>/dev/null || echo "No .vinxi/"
+          find . -name "index.mjs" -not -path "*/node_modules/*" 2>/dev/null || echo "No index.mjs found"
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
