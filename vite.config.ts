@@ -8,18 +8,22 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 const preset = process.env.NITRO_PRESET ?? "cloudflare-module";
 
+const nitroConfig: Record<string, object> = {
+  vercel: {
+    preset: "vercel",
+    output: {
+      dir: ".vercel/output",
+      serverDir: ".vercel/output/functions/__server.func",
+      publicDir: ".vercel/output/static",
+    },
+  },
+  "node-server": {
+    preset: "node-server",
+  },
+};
+
 export default defineConfig({
-  nitro:
-    preset === "vercel"
-      ? {
-          preset: "vercel",
-          output: {
-            dir: ".vercel/output",
-            serverDir: ".vercel/output/functions/__server.func",
-            publicDir: ".vercel/output/static",
-          },
-        }
-      : undefined,
+  nitro: nitroConfig[preset],
   tanstackStart: {
     server: { entry: "server" },
   },
