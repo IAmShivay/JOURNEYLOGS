@@ -42,7 +42,8 @@ jobs:
       - name: Build
         run: |
           set -a && source .env.deploy && set +a
-          NITRO_PRESET=node-server bun install && bun run build
+          bun install
+          NITRO_PRESET=node-server bun run build
 
       - name: Setup SSH
         run: |
@@ -59,33 +60,17 @@ jobs:
 
           scp .env.deploy ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:${{ env.APP_DIR }}/.env
 
-      - name: Create ecosystem config
-        run: |
-          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'SSHEOF'
-            cat > /home/ubuntu/journeylogs/ecosystem.config.cjs << 'EOF'
-          module.exports = {
-            apps: [{
-              name: "journeylogs",
-              cwd: "/home/ubuntu/journeylogs",
-              script: "dist/server/index.mjs",
-              node_args: "--max-old-space-size=256",
-              max_memory_restart: "200M",
-              env_file: "/home/ubuntu/journeylogs/.env",
-              env: {
-                PORT: 3002,
-                NODE_ENV: "production"
-              }
-            }]
-          };
-          EOF
-          SSHEOF
-
       - name: Restart
         run: |
           ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
             cd /home/ubuntu/journeylogs
             pm2 delete journeylogs 2>/dev/null || true
-            pm2 start ecosystem.config.cjs
+            pm2 start dist/server/index.mjs \
+              --name journeylogs \
+              --cwd /home/ubuntu/journeylogs \
+              --node-args="--max-old-space-size=256 --env-file=.env" \
+              --max-memory-restart 200M \
+              --env PORT=3002
             pm2 save
           EOF
 
