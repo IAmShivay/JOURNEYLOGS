@@ -18,7 +18,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
 
       - name: Install Infisical CLI
-        run: curl -1sLf 'https://raw.githubusercontent.com/Infisical/infisical/main/scripts/install.sh' | bash
+        run: npm install -g @infisical/cli
 
       - name: Export secrets
         run: |
