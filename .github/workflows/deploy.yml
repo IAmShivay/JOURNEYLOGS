@@ -55,7 +55,7 @@ jobs:
           grep -v '^CLOUDFLARE_' .env.deploy | while IFS='=' read -r key value; do
             [ -z "$key" ] && continue
             value=$(echo "$value" | tr -d "'")
-            echo "$value" | bunx wrangler secret put "$key" --name tanstack-start-app
+            echo "$value" | bunx wrangler secret put "$key" --name journeylog
           done
         env:
           CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
